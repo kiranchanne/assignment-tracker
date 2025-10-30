@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Assignment Tracker </title>
+
+        <link rel="stylesheet" href="style.css">
+
+        <style>
+            table {
+                border-collapse: collapse;
+                margin: 15px 0;
+                width: 100%;
+            }
+            th, td {
+                border: 1px solid #CCC;
+                padding: 8px;
+                text-align: center;
+            }
+            th {
+                background-color: #CCC;
+            }
+            input, select { 
+                width: 90;
+                padding: 5px;
+
+            }
+            button {
+                padding: 1px 12px;
+                margin-top: 5px;
+            }
+             ul li.done {
+            text-decoration: line-through;
+            color: gray;
+        }
+        </style>
+    </head>
+
+<body>
+
+<div class="header">
+    <div class="left-header">
+    <h1>My Assignment Tracker</h1>
+    <div class = "info">
+        <input type="text" id="semesterInput" placeholder="Enter Semester">
+        <input type="text" id="studentName" placeholder="Name">
+    </div>
+</div>
+
+    <div class="courses-section">
+        <h1 class="courses">My Courses</h1>
+         <div class="courses-list-wrapper">
+            <ul id="courseListTop"></ul>
+         </div>
+
+    <div class="add-course-container">
+        <input type="text" id="newCourseInput" placeholder="Add a course">
+        <button type="button" id="addCourseBtn">+</button>
+        </div>
+    </div>
+</div>
+        <form id="assignmentForm">
+            <table id="table">
+                <thead>
+                    <tr>
+                        <th>Assignment Title</th>
+                        <th>Course</th>
+                        <th>Due Date</th>
+                        <th>Weight (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" id="title" placeholder="Assignment Title" required></td>
+                       <td>
+                    <select id="courseInput" required>
+                        <option value="" disabled selected hidden>Choose a course</option>
+                    <!-- Options will be added dynamically via JS -->
+                    </select>
+                    </td>
+                    <td><input type="text" id="dueDate" placeholder="YYYY-MM-DD">
+                    <!-- Include Flatpickr CSS & JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</td>
+                    <td><input type="text" id="weight" placeholder="%"></td>
+                </tr>
+                <tr>
+                    <td colspan="4"><button type="submit" id="submit">Add Assignment</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+        
+        <h2>Assignments</h2>
+        <table id="assignmentTable">
+              <thead>
+    <tr>
+      <th>Assignment Title</th>
+      <th>Course</th>
+      <th>Due Date</th>
+      <th>Weight (%)</th>
+      <th>Status</th>
+    </tr>
+        </thead>
+            <tbody id="assignmentTableBody">
+       <!-- New assignments will be added here -->
+             </tbody>
+        </table>
+
+<h3>Completed Assignments <button id="toggleCompleted" class="toggle-btn">-</button></h3>
+<table id="completeAssignments">
+  <thead>
+    <tr>
+      <th>Assignment Title</th>
+      <th>Course</th>
+      <th>Due Date</th>
+      <th>Weight (%)</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody id="completeAssignmentsBody"></tbody>
+</table>
+
+        <script src="script.js"></script>
+    </body>
+</html>
+

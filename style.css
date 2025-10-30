@@ -1,0 +1,297 @@
+body { 
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    background: none;
+} 
+
+.header {
+    display: flex;
+    justify-content: space-between; /* pushes one left, one right */
+    align-items: flex-start;
+    padding: 10px 20px;
+    background-color: rgb(252, 237, 244);
+    border-bottom: none;
+    border-radius: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    color: #272727;
+}
+
+/* Left side (Title + Info stacked vertically) */
+.left-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* info */
+.info {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+}
+
+.info input {
+  margin: 4px 0;
+  padding: 5px;
+  width: 180px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  background: none;
+  font-family: inherit;
+  font-size: large;
+}
+
+/* My Assignment Tracker title */
+.header h1 {
+  margin: 0;
+  font-size: 1.9em;
+}
+
+.header .courses {
+  font-size: 1.5em;
+  font-weight: normal;
+  text-align: left;
+}
+
+
+/*enter semester field*/
+#semesterInput {
+    border: none;
+    font-family: inherit;
+    background: none;
+    text-align: left;
+    font-size: large;
+    }
+
+/* enter name */
+#studentName {
+    border: none;
+    background: none;
+    font-family: inherit;
+    text-align: left;
+    font-size: large;
+
+}
+
+/* ------------- My Courses ------------- */
+/* My Courses box (independent of header height) */
+.courses-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid #ccc;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  width: 220px;
+  max-height: 250px;
+  overflow: hidden;
+  resize: vertical;
+  background-color: #ffffff;
+  transition: height 0.2s ease;
+
+}
+
+/* Scrollable course list inside */
+.courses-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  height: auto;
+  max-height: 150px;
+  overflow-y: auto;
+  width: 100%;
+  border: none;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+/* Webkit browsers */
+.courses-list-wrapper::-webkit-scrollbar {
+    width: 1px;
+}
+.courses-list-wrapper::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 3px;
+}
+
+#newCourseInput {
+    border: lightgray;
+    flex: 1;
+    padding: 5px;
+}
+
+.add-course-container {
+  display: flex;
+  align-items: center; /* keeps them aligned */
+  gap: 5px;            /* small space between input and + button */
+}
+
+/* button to add course + */
+#addCourseBtn {
+    background-color: #ffffff;
+    border-radius: 5px;
+    border-color: rgb(255, 255, 255);
+    border-style: solid;
+    border-width: 0px;
+    color: rgb(140, 141, 141);
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.courses-section ul { /* space that holds the list */
+    list-style-type: none;
+    margin: 5px 0;
+    padding: 0;
+}
+
+.courses-section li { /* each individual list item */
+    font-size: 0.9em;
+}
+
+/* ------------- END ------------- */
+
+
+/* delete button */
+#courseListTop button {
+    background-color: rgb(255, 255, 255);
+    color: lightgray;
+    border: none;
+    text-align: right;
+    cursor: pointer;
+}
+
+/* Style for course list items */
+#courseListTop li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  border: none;
+  padding: 4px 8px;
+  margin-bottom: 4px;
+}
+
+/* ------ table ------ */
+#title {
+    border: none;
+    text-align: center;
+}
+
+#courseInput {
+    border-color: #c9c6c6;
+    width: 174px;
+    font-family: Cambria, Cochin, Georgia;
+}
+
+#courseInput:invalid {
+    color: gray;
+}
+
+#dueDate {
+    border: none;
+}
+
+#weight {
+    border: none;
+}
+
+thead th {
+    background: none;
+    font-size: large;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid #ffffff;
+  border-radius: 10px;
+  overflow: hidden; /* keeps rounded corners clean */
+}
+
+th {
+  color: rgb(54, 54, 54);
+}
+
+#submit {
+    background-color: #ffffff;
+    border-color: #d3d3d3;
+    border-style: solid;
+    border-width: 0.1px;
+    border-radius: 5px;
+    color: rgb(74, 75, 74);
+    font-size: medium;
+    font-family: cambria;
+}
+
+#submit:hover {
+    background-color: #fafafa;
+}
+
+/* table end */
+
+#courseListTop {
+    text-align: left;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+h2 { text-align: left;}
+form input { margin: 5px; padding: 5px; }
+ul { list-style-type: none; padding: 0; }
+
+li { /* assignment list */
+    margin: 5px 0; 
+    padding: 5px; 
+    border: 1px solid #7c2121; 
+    border-radius: 5px; 
+}
+
+li.done { text-decoration: line-through; background-color: #217721; }
+
+/* Default select style */
+select {
+    border-radius: 8px;
+    border-width: 0.1px;
+    border: 1px solid #ccc;
+    font-family: Cambria;
+    font-size: medium;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* We’ll apply classes via JS */
+.select-not-started {
+    background-color: #f8d7da; /* light red */
+    color: #721c24;
+}
+
+.select-in-progress {
+    background-color: #fff3cd; /* light yellow */
+    color: #856404;
+}
+
+.select-completed {
+    background-color: #d4edda; /* light green */
+    color: #155724;
+}
+
+/* Completed Assignments */
+h3 {
+    margin-top: 100px;
+    font-size: 23px;
+}
+
+.toggle-btn {
+    background-color: #ffffff;
+    border-radius: 5px;
+    border-color: rgb(230, 227, 227);
+    border-style: solid;
+    border-width: 0.1px;
+    color: rgb(141, 141, 141);
+    cursor: pointer;
+ }
+
+ .toggle-btn:hover {
+    background-color: #fafafa;
+ }
