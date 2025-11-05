@@ -38,7 +38,6 @@ semesterInput.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') {
         e.preventDefault();
         semesterInput.blur();
-        alert('Semester set to: ' + semesterInput.value);
         studentName.focus();
     }
 });
@@ -209,3 +208,4 @@ toggleCompletedBtn.addEventListener('click', function() {
         this.textContent = "+";
     }
 });
+
