@@ -21,118 +21,6 @@ flatpickr("#dueDate", {
     allowInput: true      // allows typing manually
 });
 
-// ===== Helper: Save all assignments to localStorage =====
-function saveAssignments() {
-    const rows = tableBody.querySelectorAll('tr');
-    const completedRows = completeAssignmentsBody.querySelectorAll('tr');
-    const assignmentsData = [];
-
-    const processRow = row => {
-        const cells = row.querySelectorAll('td');
-        const statusSelect = row.querySelector('select');
-
-        assignmentsData.push({
-            title: cells[0].childNodes[0].textContent, // removes delete button text
-            course: cells[1].textContent,
-            dueDate: cells[2].textContent,
-            weight: cells[3].textContent,
-            status: statusSelect.value
-        });
-    };
-
-    rows.forEach(processRow);
-    completedRows.forEach(processRow);
-
-    localStorage.setItem('assignments', JSON.stringify(assignmentsData));
-}
-
-// ===== Helper: Build a row (used for new or loaded assignments) =====
-function buildRow(data) {
-    const row = document.createElement('tr');
-
-    const titleCell = document.createElement('td');
-    titleCell.textContent = data.title;
-    const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = '✕';
-    Object.assign(deleteBtn.style, {
-        marginLeft: '10px',
-        background: 'transparent',
-        border: 'none',
-        color: '#cfcfcf',
-        cursor: 'pointer',
-        fontWeight: 'bold'
-    });
-    deleteBtn.addEventListener('click', e => {
-        e.stopPropagation();
-        row.remove();
-        saveAssignments();
-    });
-    titleCell.appendChild(deleteBtn);
-
-    const courseCell = document.createElement('td');
-    courseCell.textContent = data.course;
-    const dueDateCell = document.createElement('td');
-    dueDateCell.textContent = data.dueDate;
-    const weightCell = document.createElement('td');
-    weightCell.textContent = data.weight;
-
-    const statusCell = document.createElement('td');
-    const statusSelect = document.createElement('select');
-    ["Not Started", "In Progress", "Completed"].forEach(status => {
-        const option = document.createElement('option');
-        option.value = status;
-        option.textContent = status;
-        if (status === data.status) option.selected = true;
-        statusSelect.appendChild(option);
-    });
-    statusSelect.classList.add(
-        data.status === "Completed" ? 'select-completed' :
-        data.status === "In Progress" ? 'select-in-progress' :
-        'select-not-started'
-    );
-
-    statusSelect.addEventListener('change', function() {
-        statusSelect.classList.remove('select-not-started', 'select-in-progress', 'select-completed');
-
-        if (statusSelect.value === "Not Started") {
-            statusSelect.classList.add('select-not-started');
-            if (row.parentElement === completeAssignmentsBody) {
-                row.remove();
-                tableBody.appendChild(row);
-            }
-        } else if (statusSelect.value === "In Progress") {
-            statusSelect.classList.add('select-in-progress');
-            if (row.parentElement === completeAssignmentsBody) {
-                row.remove();
-                tableBody.appendChild(row);
-            }
-        } else if (statusSelect.value === "Completed") {
-            statusSelect.classList.add('select-completed');
-            if (row.parentElement !== completeAssignmentsBody) {
-                row.remove();
-                completeAssignmentsBody.appendChild(row);
-            }
-        }
-
-        saveAssignments();
-    });
-
-    statusCell.appendChild(statusSelect);
-    row.append(titleCell, courseCell, dueDateCell, weightCell, statusCell);
-
-    // Append to correct table
-    if (data.status === "Completed") {
-        completeAssignmentsBody.appendChild(row);
-    } else {
-        tableBody.appendChild(row);
-    }
-}
-
-// ===== Load assignments from localStorage on page load =====
-window.addEventListener('DOMContentLoaded', () => {
-    const stored = JSON.parse(localStorage.getItem('assignments')) || [];
-    stored.forEach(buildRow);
-});
 
 // ===== Double click resize section =====
 coursesSection.addEventListener('dblclick', (e) => {
@@ -215,6 +103,7 @@ courseInput.addEventListener('keydown', function(e) {
     }
 });
 
+
 // ===== Add course listeners =====
 addCourseBtn.addEventListener('click', addCourse);
 newCourseInput.addEventListener('keydown', function(e) {
@@ -238,16 +127,74 @@ form.addEventListener('submit', function(e) {
         return;
     }
 
-    // Build row using helper
-    buildRow({
-        title: title,
-        course: course,
-        dueDate: dueDate,
-        weight: weight,
-        status: "Not Started"
+    const row = document.createElement('tr');
+
+    // Create table cells
+    const titleCell = document.createElement('td');
+    titleCell.textContent = title;
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = '✕';
+    Object.assign(deleteBtn.style, {
+        marginLeft: '10px',
+        background: 'transparent',
+        border: 'none',
+        color: '#cfcfcf',
+        cursor: 'pointer',
+        fontWeight: 'bold'
+    });
+    deleteBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        row.remove();
+    });
+    titleCell.appendChild(deleteBtn);
+
+    const courseCell = document.createElement('td');
+    courseCell.textContent = course;
+    const dueDateCell = document.createElement('td');
+    dueDateCell.textContent = dueDate;
+    const weightCell = document.createElement('td');
+    weightCell.textContent = weight;
+
+    const statusCell = document.createElement('td');
+    const statusSelect = document.createElement('select');
+
+    ["Not Started", "In Progress", "Completed"].forEach(status => {
+        const option = document.createElement('option');
+        option.value = status;
+        option.textContent = status;
+        statusSelect.appendChild(option);
     });
 
-    saveAssignments(); // save after adding
+    statusSelect.classList.add('select-not-started');
+    statusCell.appendChild(statusSelect);
+
+    row.append(titleCell, courseCell, dueDateCell, weightCell, statusCell);
+    tableBody.appendChild(row);
+
+    // ===== Status change logic =====
+    statusSelect.addEventListener('change', function() {
+        statusSelect.classList.remove('select-not-started', 'select-in-progress', 'select-completed');
+
+        if (statusSelect.value === "Not Started") {
+            statusSelect.classList.add('select-not-started');
+            if (row.parentElement === completeAssignmentsBody) {
+                row.remove();
+                tableBody.appendChild(row);
+            }
+        } else if (statusSelect.value === "In Progress") {
+            statusSelect.classList.add('select-in-progress');
+            if (row.parentElement === completeAssignmentsBody) {
+                row.remove();
+                tableBody.appendChild(row);
+            }
+        } else if (statusSelect.value === "Completed") {
+            statusSelect.classList.add('select-completed');
+            if (row.parentElement !== completeAssignmentsBody) {
+                row.remove();
+                completeAssignmentsBody.appendChild(row);
+            }
+        }
+    });
 
     form.reset();
 });
